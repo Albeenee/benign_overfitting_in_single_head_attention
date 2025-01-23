@@ -20,8 +20,8 @@ def plot_metrics(train_acc, test_acc, clean_probs, noisy_probs):
     plt.figure(figsize=(12, 5))
 
     plt.subplot(1, 2, 1)
-    plt.plot(range(len(train_acc)), train_acc, label='Train Accuracy')
-    plt.plot(range(len(test_acc)), test_acc, label='Test Accuracy')
+    plt.plot([0.1] + list(range(1, len(train_acc))), train_acc, label='Train Accuracy')
+    plt.plot([0.1] + list(range(1, len(test_acc))), test_acc, label='Test Accuracy')
     plt.xscale('log')
     plt.xlabel('Iteration (log scale)')
     plt.ylabel('Accuracy')
