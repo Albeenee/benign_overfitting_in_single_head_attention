@@ -12,16 +12,12 @@ def plot_metrics(train_acc, test_acc, clean_probs, noisy_probs):
     """
     Plot the metrics during training: train/test accuracies and softmax probabilities.
     """
-
-    print('train_accs', train_acc)
-    print('clean_probs', clean_probs)
-    print('noisy_probs', noisy_probs)
     # Plot Train and Test 
     plt.figure(figsize=(12, 5))
 
     plt.subplot(1, 2, 1)
-    plt.plot([0.1] + list(range(1, len(train_acc))), train_acc, label='Train Accuracy')
-    plt.plot([0.1] + list(range(1, len(test_acc))), test_acc, label='Test Accuracy')
+    plt.plot(list(range(1, len(train_acc)+1)), train_acc, label='Train Accuracy')
+    plt.plot(list(range(1, len(test_acc)+1)), test_acc, label='Test Accuracy')
     plt.xscale('log')
     plt.xlabel('Iteration (log scale)')
     plt.ylabel('Accuracy')
@@ -30,8 +26,8 @@ def plot_metrics(train_acc, test_acc, clean_probs, noisy_probs):
 
     # Plot Softmax Probabilities for Clean and Noisy Samples
     plt.subplot(1, 2, 2)
-    plt.plot(range(len(clean_probs)), clean_probs, label='Clean Sample Probabilities')
-    plt.plot(range(len(noisy_probs)), noisy_probs, label='Noisy Sample Probabilities')
+    plt.plot(list(range(1, len(clean_probs)+1)), clean_probs, label='Clean Sample Probabilities')
+    plt.plot(list(range(1, len(noisy_probs)+1)), noisy_probs, label='Noisy Sample Probabilities')
     plt.xscale('log')
     plt.xlabel('Iteration')
     plt.ylabel('Softmax Probability')
@@ -68,7 +64,7 @@ def train_with_gradient_descent(model,
                                 beta=0.025):
 
     # Initialize lists and step
-    train_accs, test_accs, clean_proba, noisy_proba, steps_list = [0.01], [0.01], [], [], []
+    train_accs, test_accs, clean_proba, noisy_proba, steps_list = [0.01], [0.01], [0.5], [0.5], []
     cur_step = 0
 
     # Descent
@@ -136,7 +132,7 @@ def train_with_max_margin(model,
                         margin_lambda=1):
 
     # Initialize lists and step
-    train_accs, test_accs, clean_proba, noisy_proba, steps_list = [0.01], [0.01], [], [], []
+    train_accs, test_accs, clean_proba, noisy_proba, steps_list = [0.01], [0.01], [0.5], [0.5], []
     cur_step = 0
 
     (r, R) = constraints
