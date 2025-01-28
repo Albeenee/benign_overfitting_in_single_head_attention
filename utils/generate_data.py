@@ -5,16 +5,10 @@ import numpy as np
 def generate_data(n, d, rho, eta, seed=0):
     rng = np.random.default_rng(seed)
     
-    # Construction of mu_1 and mu_2
-    v1 = rng.normal(size=d)
-    v1 /= np.linalg.norm(v1) # normalize
-
-    v2 = rng.normal(size=d)
-    v2 -= (v2 @ v1) * v1 # remove projection of mu_2 onto mu1 to ensure orthogonality
-    v2 /= np.linalg.norm(v2) # normalize
-
-    mu_1 = rho * v1
-    mu_2 = rho * v2
+    mu_1 = np.zeros(d)
+    mu_2 = np.zeros(d)
+    mu_1[0]= rho
+    mu_2[1] = rho
 
     # Covariance matrix
     I_d = np.eye(d)
