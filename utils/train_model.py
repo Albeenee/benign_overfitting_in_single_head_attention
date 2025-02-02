@@ -6,9 +6,9 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 
 
-color_list = ['blue', 'orange', 'green', 'red', 'purple']
-
 # PLOT FUNCTION
+color_list = ['mediumblue', 'orange', 'mediumseagreen', 'firebrick', 'mediumslateblue']
+
 def plot_metrics(train_accs, test_accs, clean_probs, noisy_probs, labels_train_test = [[],[]], labels_noise = [[],[]]):
     """
     Plot the metrics during training: train/test accuracies and softmax probabilities.
@@ -31,7 +31,7 @@ def plot_metrics(train_accs, test_accs, clean_probs, noisy_probs, labels_train_t
             label='Test Accuracy' 
         else :
             label=labels_train_test[1][i]
-        plt.plot(list(range(1, len(test_acc)+1)), test_acc, label=label,linestyle='dashed', color=color_list[i])
+        plt.plot(list(range(1, len(test_acc)+1)), test_acc, label=label,linestyle='dotted', color=color_list[i])
 
     plt.xscale('log')
     plt.xlabel('Iteration (log scale)')
@@ -53,7 +53,7 @@ def plot_metrics(train_accs, test_accs, clean_probs, noisy_probs, labels_train_t
             label='Noisy Sample Probabilities'
         else :
             label=labels_noise[1][i]
-        plt.plot(list(range(1, len(noisy_prob)+1)), noisy_prob, label=label, linestyle='dashed', color=color_list[i])
+        plt.plot(list(range(1, len(noisy_prob)+1)), noisy_prob, label=label, linestyle='dotted', color=color_list[i])
 
     plt.xscale('log')
     plt.xlabel('Iteration')
@@ -87,7 +87,7 @@ def train_with_gradient_descent(model,
                                 clean_indices_train,
                                 noisy_indices_train,
                                 log_every=50, 
-                                num_steps=150,
+                                num_steps=100,
                                 beta=0.025):
 
     # Initialize lists and step
@@ -134,14 +134,13 @@ def train_with_gradient_descent(model,
             for param in model.parameters():
                 param -= beta * param.grad
             
-        # Logging tous les epochs
+        # Track at each epoch
         cur_step += 1
         if (epoch==0) or (epoch+1)%log_every==0 or (epoch+1 == num_steps):
             print(f"Epoch {epoch+1}")
 
 
-    plot_metrics([train_accs], [test_accs], [clean_proba], [noisy_proba])
-    return model
+    return train_accs, test_accs, clean_proba, noisy_proba
 
 
 def train_with_max_margin(model, 
@@ -226,45 +225,9 @@ def train_with_max_margin(model,
             for param in model.parameters():
                 param -= beta * param.grad
             
-        # Logging tous les epochs
+        # Track at each epoch
         cur_step += 1
         if (epoch==0) or (epoch+1)%log_every==0 or (epoch+1 == num_steps):
             print(f"Epoch {epoch+1}")
 
     return train_accs, test_accs, clean_proba, noisy_proba
-
-
-def train_plot(models, 
-            optimizers, 
-            X_train, 
-            y_train, 
-            X_test, 
-            y_test, 
-            clean_indices_train, 
-            noisy_indices_train, 
-            constraints):
-    
-    train_accs, test_accs, clean_probas, noisy_probas = [], [], [], []
-
-    for i in range(len(X_train)):
-        train_acc, test_acc, clean_proba, noisy_proba = train_with_max_margin(
-                        models[i], 
-                        optimizers[i], 
-                        X_train[i], 
-                        y_train[i], 
-                        X_test[i], 
-                        y_test[i], 
-                        clean_indices_train[i],
-                        noisy_indices_train[i],
-                        constraints,
-                        log_every=50, 
-                        num_steps=150,
-                        beta=0.025, 
-                        margin_lambda=1)
-        
-        train_accs.append(train_acc)
-        test_accs.append(test_acc)
-        clean_probas.append(clean_proba)
-        noisy_probas.append(noisy_proba)
-
-    plot_metrics(train_accs, test_accs, clean_probas, noisy_probas)

@@ -11,7 +11,6 @@ if torch.backends.mps.is_available():
 
 else:
         device = torch.device("cpu")
-print("Using device:", device)
 
 
 # SINGLE HEAD ATTENTION MODEL
