@@ -9,7 +9,7 @@ In $benign_overfitting$, you can run two experiments from the paper [0], one usi
 Lastly in $different_SNR$, we compare the impact of changing the dimension - which directly impacts the SNR.
 
 ## Models
-The model is a simplified Single-Head Attention, with the assumption that the query vector is fixed, so we can rewrite the model as $f(\boldsymbol{X}; \boldsymbol{p}, \boldsymbol{v} = \boldsymbol{v}^\top \boldsymbol{X}^\top\mathcal{S}(\boldsymbol{Xp}$, where we train$\boldsymbol{v}$ and $\boldsymbol{p}$.
+The model is a simplified Single-Head Attention, with the assumption that the query vector is fixed, so we can rewrite the model as $f(\boldsymbol{X}; \boldsymbol{p}, \boldsymbol{v} = \boldsymbol{v}^\top \boldsymbol{X}^\top\mathcal{S}(\boldsymbol{Xp})$, where we train $\boldsymbol{v}$ and $\boldsymbol{p}$.
 
 ## Utils
 - generate_data: generate a dataset using the method presented in [0], depending on different parameters
